@@ -33,7 +33,7 @@ First 13 layers of VGG-16 without batch-norm followed by upsample and conv layer
 |               |  MAE | RMSE | PSNR | SSIM | PSNR(1/8) | SSIM(1/8) |
 | ------------- | ---: | ---: | ---: | ---: | --------: | --------: |
 | 1             | 62.9 | 99.7 |      |      |           |           |
-| $\frac{1}{2}$ |      |      |      |      |           |           |
+| $\frac{1}{2}$ | 62.0 | 95.4 |      |      |           |           |
 | $\frac{1}{4}$ |      |      |      |      |           |           |
 | $\frac{1}{8}$ |      |      |      |      |           |           |
 
