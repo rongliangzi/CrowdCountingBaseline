@@ -12,6 +12,10 @@ First 13 layers of VGG-16 without batch-norm followed by upsample and conv layer
 
 ## Augmentation
 
+When calculating PSNR and SSIM, different resolutions lead to different result. For original size density maps, the value of each pixel is quite small so that PSNR and SSIM is bigger than 1/8 size.
+
+$Loss = L_{MSE}+100*downsample*L_{C}$
+
 | Strategy     |      MAE |     RMSE |      PSNR |       SSIM | PSNR(1/8) | SSIM(1/8) |       Time/epoch |
 | ------------ | -------: | -------: | --------: | ---------: | --------: | --------: | ---------------: |
 | 0.3$\times$  | **62.9** |     99.7 | **58.61** | **0.9869** | **22.51** |      0.62 | **0.33$\times$** |
@@ -30,23 +34,26 @@ First 13 layers of VGG-16 without batch-norm followed by upsample and conv layer
 
 ## Map Size
 
-|               |  MAE | RMSE | PSNR | SSIM | PSNR(1/8) | SSIM(1/8) |
-| ------------- | ---: | ---: | ---: | ---: | --------: | --------: |
-| 1             | 62.9 | 99.7 |      |      |           |           |
-| $\frac{1}{2}$ | 62.0 | 95.4 |      |      |           |           |
-| $\frac{1}{4}$ |      |      |      |      |           |           |
-| $\frac{1}{8}$ |      |      |      |      |           |           |
+|                                              |      MAE |     RMSE |  PSNR |   SSIM | PSNR(1/8) | SSIM(1/8) |
+| -------------------------------------------- | -------: | -------: | ----: | -----: | --------: | --------: |
+| 1                                            |     62.9 |     99.7 | 58.61 | 0.9869 | **22.51** |  **0.62** |
+| $\frac{1}{2}$                                | **62.0** |     95.4 | 46.47 | 0.9416 |     22.42 |  **0.62** |
+| $\frac{1}{4}$                                | **62.0** | **93.0** | 34.38 | 0.8197 |     22.35 |      0.61 |
+| $\frac{1}{4}, L_{MSE}+400*downsample*L_{C}$  |     61.4 |     92.6 |       |        |           |           |
+| $\frac{1}{4}, L_{MSE}+1000*downsample*L_{C}$ |     60.0 |     92.6 |       |        |           |           |
+| $\frac{1}{4}, L_{MSE}+25*downsample*L_{C}$   |     63.5 |     93.4 |       |        |           |           |
+| $\frac{1}{8}$                                |     63.0 |     95.6 | 22.24 | 0.6122 |     22.24 |      0.61 |
 
 
 
 ## Loss Function
 
-|                 |  MAE | RMSE | PSNR | SSIM |
-| --------------- | ---: | ---: | ---: | ---: |
-| $L_{MSE}$       |      |      |      |      |
-| $L_{MSE}+L_{C}$ |      |      |      |      |
-| $MSSIM$         |      |      |      |      |
-|                 |      |      |      |      |
+|                                |  MAE | RMSE | PSNR | SSIM |
+| ------------------------------ | ---: | ---: | ---: | ---: |
+| $L_{MSE}$                      |      |      |      |      |
+| $L_{MSE}+100*downsample*L_{C}$ |      |      |      |      |
+| $MSSIM$                        |      |      |      |      |
+| $L_{SA}+L_{SC}$                |      |      |      |      |
 
 
 
