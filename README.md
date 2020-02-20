@@ -6,7 +6,7 @@ Experiments are conducted on ShanghaiTech PartA dataset.
 
 ## Baseline Network Architecture
 
-First 13 layers of VGG-16 without batch-norm followed by upsample and conv layers to get **the same size** density maps as input images. In the backend, SE blocks and Swish activation are adopted. Figure will be added soon.
+First 13 layers of VGG-16 without batch-norm followed by upsample and conv layers to get **the same size** density maps as input images. In the backend, SE blocks is adopted. Swish activation replaces ReLU. Figure will be added soon.
 
 
 
@@ -52,11 +52,11 @@ First 13 layers of VGG-16 without batch-norm followed by upsample and conv layer
 
 ## Learning Objective
 
-|                                  |  MAE | RMSE | PSNR | SSIM |
-| -------------------------------- | ---: | ---: | ---: | ---: |
-| Density Map                      |      |      |      |      |
-| Density Map + Soft Attention Map |      |      |      |      |
-| Density Map + Hard Attention Map |      |      |      |      |
+|                                  |  MAE | RMSE | PSNR | SSIM | Params(M) |
+| -------------------------------- | ---: | ---: | ---: | ---: | --------: |
+| Density Map                      |      |      |      |      |     23.45 |
+| Density Map + Soft Attention Map |      |      |      |      |     23.53 |
+| Density Map + Hard Attention Map |      |      |      |      |     23.53 |
 
 
 
