@@ -48,12 +48,15 @@ $Loss = L_{MSE}+100*downsample*L_{C}$
 
 ## Loss Function
 
-|                                |  MAE | RMSE | PSNR | SSIM |
-| ------------------------------ | ---: | ---: | ---: | ---: |
-| $L_{MSE}$                      |      |      |      |      |
-| $L_{MSE}+100*downsample*L_{C}$ |      |      |      |      |
-| $MSSIM$                        |      |      |      |      |
-| $L_{SA}+L_{SC}$                |      |      |      |      |
+Size = 1
+
+|                                |  MAE |  RMSE | PSNR | SSIM |
+| ------------------------------ | ---: | ----: | ---: | ---: |
+| $L_{MSE}$                      |      |       |      |      |
+| $L_{MSE}+100*downsample*L_{C}$ |      |       |      |      |
+| $DMS-SSIM$                     | 71.7 | 108.9 |      |      |
+| $MS-SSIM$                      |      |       |      |      |
+| $L_{SA}+L_{SC}$                |      |       |      |      |
 
 
 
