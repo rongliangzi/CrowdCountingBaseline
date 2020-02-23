@@ -8,6 +8,32 @@ Experiments are conducted on ShanghaiTech PartA dataset.
 
 First 13 layers of VGG-16 without batch-norm followed by upsample and conv layers to get **the same size** density maps as input images. In the backend, SE blocks is adopted. Swish activation replaces ReLU. Figure will be added soon.
 
+Use full images and MSE loss function to train.
+
+VGG16-13 not converge.
+
+When applying pyramids in the whole decoder, the model converge to a bad local minimum, so only first 2 layers use pyramids.
+
+- [ ] When training U-VGG, loss converge to 1.1e-4. and MAE ~240. Try (1)use SGD (2)random init instead of vgg16 and simplify. but they do not work.
+
+- [ ] When training CSRNet, if init the parameters randomly instead of using pretrained, converge to MAE ~330.
+
+| Model                                             |   MAE |  RMSE |  PSNR | SSIM | Params |
+| ------------------------------------------------- | ----: | ----: | ----: | ---: | -----: |
+| ResNet-50 + decoder                               |  80.6 | 130.1 |       |      |        |
+| InceptionV3 + decoder                             | 119.4 | 170.5 |       |      |        |
+| VGG16-10 + decoder(CSRNet)                        |  71.0 | 111.7 | 22.66 | 0.70 |        |
+| VGG16-10 + decoder + skip connection              |   240 |       |       |      |        |
+| VGG16-10 + decoder(1,3,5,7 filter)                |  70.9 | 110.8 |       |      |        |
+| VGG16-10 + decoder(1,2,3,6 dilation)              |  74.7 | 113.1 |       |      |        |
+| VGG16-10 + decoder(depth pyramid)                 |  74.2 | 112.5 |       |      |        |
+| VGG16-13 + decoder                                |       |       |       |      |        |
+| VGG16-10 + decoder + SE + Swish                   |       |       |       |      |        |
+| VGG16-13 + decoder(1,3,5,7 filter) + SE + Swish   |       |       |       |      |        |
+| VGG16-13 + decoder(1,2,3,6 dilation) + SE + Swish |       |       |       |      |        |
+|                                                   |       |       |       |      |        |
+|                                                   |       |       |       |      |        |
+
 
 
 ## Augmentation
@@ -50,13 +76,18 @@ $Loss = L_{MSE}+100*downsample*L_{C}$
 
 Size = 1
 
-|                                |  MAE |  RMSE | PSNR | SSIM |
-| ------------------------------ | ---: | ----: | ---: | ---: |
-| $L_{MSE}$                      |      |       |      |      |
-| $L_{MSE}+100*downsample*L_{C}$ |      |       |      |      |
-| $DMS-SSIM$                     | 71.7 | 108.9 |      |      |
-| $MS-SSIM$                      |      |       |      |      |
-| $L_{SA}+L_{SC}$                |      |       |      |      |
+|                                |          MAE |  RMSE | PSNR | SSIM |
+| ------------------------------ | -----------: | ----: | ---: | ---: |
+| $L_{MSE}$                      |              |       |      |      |
+| $L_{MSE}+100*downsample*L_{C}$ |         62.9 |  99.7 |      |      |
+| $DMS-SSIM$                     |         71.7 | 108.9 |      |      |
+| $MS-SSIM$                      |         69.8 | 104.4 |      |      |
+| $L_{SA}+L_{SC}$                | Not converge |       |      |      |
+| 1                              |         71.9 | 110.0 |      |      |
+| 2                              |         70.6 | 112.9 |      |      |
+| 3                              |         71.6 | 110.2 |      |      |
+| 4                              |         69.9 | 109.2 |      |      |
+| 5                              |         69.6 | 105.5 |      |      |
 
 
 
