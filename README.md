@@ -35,11 +35,9 @@ Problems to be issued:
 | VGG16-10 + decoder, 1 size           |  >200 |  >300 |       |      |        |
 | VGG16-10 + decoder, 1/2 size         | 119.4 | 192.9 |       |      |        |
 | VGG16-10 + decoder, 1/4 size         |    94 |       |       |      |        |
-| VGG16-13 + decoder, 1 size           |       |       |       |      |        |
-| VGG16-13 + decoder, 1/2 size         |       |       |       |      |        |
-| VGG16-13 + decoder, 1/4 size         |       |       |       |      |        |
 | Dense                                |       |       |       |      |        |
 | DenseRes                             |       |       |       |      |        |
+| Res                                  |       |       |       |      |        |
 | VGG16-13 + decoder + se              |       |       |       |      |        |
 | VGG16-13 + decoder + se + swish      |       |       |       |      |        |
 
