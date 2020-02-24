@@ -14,25 +14,36 @@ VGG16-13 not converge.
 
 When applying pyramids in the whole decoder, the model converge to a bad local minimum, so only first 2 layers use pyramids.
 
+Problems to be issued:
+
 - [ ] When training U-VGG, loss converge to 1.1e-4. and MAE ~240. Try (1)use SGD (2)random init instead of vgg16 and simplify. but they do not work.
 
 - [ ] When training CSRNet, if init the parameters randomly instead of using pretrained, converge to MAE ~330.
+- [ ] If use first 13 layers of VGG16 in M_VGG, downsample = 8, training loss converges to ~0.0030 and do not reduce. MAE is 86.4.
+- [x] When adding 3 upsample layers into CSRNet so that to regress 1 size density maps, loss converges to ~1.218e-5, and MAE > 200. When adding 2 upsample layers, , loss converges to ~1.8e-4, and MAE > 120. When adding 1 upsample layer, loss converges to ~2e-3, and MAE ~94. Reducing the lr will work.
 
-| Model                                             |   MAE |  RMSE |  PSNR | SSIM | Params |
-| ------------------------------------------------- | ----: | ----: | ----: | ---: | -----: |
-| ResNet-50 + decoder                               |  80.6 | 130.1 |       |      |        |
-| InceptionV3 + decoder                             | 119.4 | 170.5 |       |      |        |
-| VGG16-10 + decoder(CSRNet)                        |  71.0 | 111.7 | 22.66 | 0.70 |        |
-| VGG16-10 + decoder + skip connection              |   240 |       |       |      |        |
-| VGG16-10 + decoder(1,3,5,7 filter)                |  70.9 | 110.8 |       |      |        |
-| VGG16-10 + decoder(1,2,3,6 dilation)              |  74.7 | 113.1 |       |      |        |
-| VGG16-10 + decoder(depth pyramid)                 |  74.2 | 112.5 |       |      |        |
-| VGG16-13 + decoder                                |       |       |       |      |        |
-| VGG16-10 + decoder + SE + Swish                   |       |       |       |      |        |
-| VGG16-13 + decoder(1,3,5,7 filter) + SE + Swish   |       |       |       |      |        |
-| VGG16-13 + decoder(1,2,3,6 dilation) + SE + Swish |       |       |       |      |        |
-|                                                   |       |       |       |      |        |
-|                                                   |       |       |       |      |        |
+| Model                                |   MAE |  RMSE |  PSNR | SSIM | Params |
+| ------------------------------------ | ----: | ----: | ----: | ---: | -----: |
+| ResNet-50 + decoder                  |  80.6 | 130.1 |       |      |        |
+| InceptionV3 + decoder                | 119.4 | 170.5 |       |      |        |
+| VGG16-10 + decoder(CSRNet)           |  71.0 | 111.7 | 22.66 | 0.70 |        |
+| VGG16-10 + decoder + skip connection |   240 |       |       |      |        |
+| VGG16-10 + decoder(1,3,5,7 filter)   |  70.9 | 110.8 |       |      |        |
+| VGG16-10 + decoder(1,2,3,6 dilation) |  74.7 | 113.1 |       |      |        |
+| VGG16-10 + decoder(depth pyramid)    |  74.2 | 112.5 |       |      |        |
+| VGG16-13 + decoder                   |  86.4 | 125.1 |       |      |        |
+| VGG16-10 + decoder, 1 size           |  >200 |  >300 |       |      |        |
+| VGG16-10 + decoder, 1/2 size         | 119.4 | 192.9 |       |      |        |
+| VGG16-10 + decoder, 1/4 size         |    94 |       |       |      |        |
+| VGG16-13 + decoder, 1 size           |       |       |       |      |        |
+| VGG16-13 + decoder, 1/2 size         |       |       |       |      |        |
+| VGG16-13 + decoder, 1/4 size         |       |       |       |      |        |
+| Dense                                |       |       |       |      |        |
+| DenseRes                             |       |       |       |      |        |
+| VGG16-13 + decoder + se              |       |       |       |      |        |
+| VGG16-13 + decoder + se + swish      |       |       |       |      |        |
+
+Select model VGG16-13 + decoder + se + swish
 
 
 
