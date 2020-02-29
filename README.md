@@ -8,6 +8,8 @@ Experiments are conducted on ShanghaiTech PartA dataset.
 
 First 13 layers of VGG-16 without batch-norm followed by upsample and conv layers to get **the same size** density maps as input images. In the backend, SE blocks is adopted. Swish activation replaces ReLU. Figure will be added soon.
 
+Mult-Adds is calculated using 1\*3\*224\*224 as input.
+
 Use full images and MSE loss function to train.
 
 VGG16-13 not converge.
@@ -21,27 +23,28 @@ Problems to be issued:
 - [ ] When training CSRNet, if init the parameters randomly instead of using pretrained, converge to MAE ~330.
 - [ ] If use first 13 layers of VGG16 in M_VGG, downsample = 8, training loss converges to ~0.0030 and do not reduce. MAE is 86.4.
 - [x] When adding 3 upsample layers into CSRNet so that to regress 1 size density maps, loss converges to ~1.218e-5, and MAE > 200. When adding 2 upsample layers, , loss converges to ~1.8e-4, and MAE > 120. When adding 1 upsample layer, loss converges to ~2e-3, and MAE ~94. Reducing the lr will work.
+- [ ] When use ResNet-50, the outputs seem to be quite close to each other.
 
-| Model                                |   MAE |  RMSE |  PSNR | SSIM | Params |
-| ------------------------------------ | ----: | ----: | ----: | ---: | -----: |
-| ResNet-50 + decoder                  |  80.6 | 130.1 |       |      |        |
-| InceptionV3 + decoder                | 119.4 | 170.5 |       |      |        |
-| VGG16-10 + decoder(CSRNet)           |  71.0 | 111.7 | 22.66 | 0.70 |        |
-| VGG16-10 + decoder + skip connection |   240 |       |       |      |        |
-| VGG16-10 + decoder(1,3,5,7 filter)   |  70.9 | 110.8 |       |      |        |
-| VGG16-10 + decoder(1,2,3,6 dilation) |  74.7 | 113.1 |       |      |        |
-| VGG16-10 + decoder(depth pyramid)    |  74.2 | 112.5 |       |      |        |
-| VGG16-13 + decoder                   |  86.4 | 125.1 |       |      |        |
-| VGG16-10 + decoder, 1 size           |  >200 |  >300 |       |      |        |
-| VGG16-10 + decoder, 1/2 size         | 119.4 | 192.9 |       |      |        |
-| VGG16-10 + decoder, 1/4 size         |    94 |       |       |      |        |
-| Dense                                |       |       |       |      |        |
-| DenseRes                             |       |       |       |      |        |
-| Res                                  |       |       |       |      |        |
-| VGG16-13 + decoder + se              |       |       |       |      |        |
-| VGG16-13 + decoder + se + swish      |       |       |       |      |        |
+| Model                                |   MAE |  RMSE |  PSNR | SSIM | Params | Mult-Adds |
+| ------------------------------------ | ----: | ----: | ----: | ---: | -----: | --------: |
+| ResNet-50 + decoder                  |  80.6 | 130.1 |       |      |  11.6G |     29.6G |
+| Res2Net-50 + decoder                 |       |       |       |      |  11.8G |     29.7G |
+| InceptionV3 + decoder                | 119.4 | 170.5 |       |      |        |           |
+| VGG16-10 + decoder(CSRNet)           |  72.6 | 114.8 | 22.66 | 0.70 |  16.3M |     30.6G |
+| VGG16-10 + decoder(1,3,5,7 filter)   |  70.9 | 110.8 |       |      |  13.0M |     28.0G |
+| VGG16-10 + decoder(1,2,3,6 dilation) |  74.7 | 113.1 |       |      |  11.4M |     26.8G |
+| VGG16-10 + decoder(depth pyramid)    |  74.2 | 112.5 |       |      |  12.0M |     27.3G |
+| VGG16-13 + decoder                   |  86.4 | 125.1 |       |      |        |           |
+| VGG16-10 + decoder, 1 size           |  >200 |  >300 |       |      |        |           |
+| VGG16-10 + decoder, 1/2 size         | 119.4 | 192.9 |       |      |        |           |
+| VGG16-10 + decoder, 1/4 size         |    94 |       |       |      |        |           |
+| VGG16-10 + Dense                     |  72.5 | 113.8 |       |      |  13.0M |     28.8G |
+| VGG16-10 + DenseRes                  |  72.1 | 116.0 |       |      |  10.6M |     29.6G |
+| VGG16-10 + Res                       |  74.4 | 113.3 |       |      |  16.3M |     30.6G |
+| VGG16-13 + decoder + swish           |  73.9 | 117.8 |       |      |        |           |
+| VGG16-13 + decoder + se              |  74.8 | 119.7 |       |      |        |           |
 
-Select model VGG16-13 + decoder + se + swish
+Select model: VGG16-10 + decoder(CSRNet)
 
 
 
@@ -78,6 +81,12 @@ $Loss = L_{MSE}+100*downsample*L_{C}$
 | $\frac{1}{4}, L_{MSE}+1000*downsample*L_{C}$ |     60.0 |     92.6 |       |        |           |           |
 | $\frac{1}{4}, L_{MSE}+25*downsample*L_{C}$   |     63.5 |     93.4 |       |        |           |           |
 | $\frac{1}{8}$                                |     63.0 |     95.6 | 22.24 | 0.6122 |     22.24 |      0.61 |
+
+|      |      |       |
+| ---- | ---- | ----- |
+| SHB  |      |       |
+| qnrf | 95.3 | 166.9 |
+|      |      |       |
 
 
 
